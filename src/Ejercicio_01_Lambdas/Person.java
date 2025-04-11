@@ -5,7 +5,7 @@ public class Person {
     private String name;
     private Double height;
 
-    Person(Integer age, String name, Double height) {
+    Person(String name, Integer age, Double height) {
         this.age = age;
         this.name = name;
         this.height = height;
@@ -19,5 +19,10 @@ public class Person {
     }
     public Double getHeight() {
         return height;
+    }
+
+    @Override
+    public String toString() {
+        return "Person[" + "name=" + name + ", age=" + age + ", height=" + height + "]";
     }
 }

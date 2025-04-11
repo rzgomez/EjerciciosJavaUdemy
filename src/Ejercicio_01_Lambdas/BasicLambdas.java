@@ -1,6 +1,8 @@
 package Ejercicio_01_Lambdas;
 
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -30,6 +32,11 @@ public class BasicLambdas {
         supplier();
         predicate();
         function();
+
+        List<Person> listPeople = getPeople();
+        sortAge(listPeople);
+        sortName(listPeople);
+        sortHeight(listPeople);
     }
 
     public static void consumer(){
@@ -74,8 +81,8 @@ public class BasicLambdas {
         txt = "Ms. Ann Bloggs";
         System.out.println( txt + " begins with 'Mr.' ? " + check(txt, str -> str.startsWith("Mr.")));
 
-        Person p1 = new Person(33, "Mike", 1.8);
-        Person p2 = new Person(13, "Ann", 1.4);
+        Person p1 = new Person("Mike",33,  1.8);
+        Person p2 = new Person("Ann",13,  1.4);
 
         System.out.println( "Is " + p1.getName() + " an adult? " + check(p1.getAge(), i -> i >= 18));
         System.out.println( "Is " + p2.getName() + " an adult? " + check(p2.getAge(), i -> i >= 18));
@@ -92,14 +99,41 @@ public class BasicLambdas {
 
         Function<Integer, String> functionL = number -> "Number is: " + number;
         System.out.println("Function: " + functionL.apply(25));
+        System.out.println();
     }
 
-    private void sortName(List<Person> personList){}
+    private static void sortAge(List<Person> personList){
+//        personList.sort(Comparator.comparing(person -> person.getAge())); //lambda
+        personList.sort(Comparator.comparing(Person::getAge)); //method reference
 
-    private void sortAge(List<Person> personList){}
+//        personList.forEach(person -> System.out.println(person)); //lambda
+        personList.forEach(System.out::println);
+        System.out.println();
+    }
 
-    private void sortHeight(List<Person> personList){}
+    private static void sortName(List<Person> personList){
+//        personList.sort(Comparator.comparing(p -> p.getName())); //lambda
+        personList.sort(Comparator.comparing(Person::getName)); //method reference
 
-    private List<Person> getPeople(){
-    return null;}
+//        personList.forEach(p -> System.out.println(p)); //method reference
+        personList.forEach(System.out::println);
+        System.out.println();
+    }
+
+    private static void sortHeight(List<Person> personList){
+//        personList.sort(Comparator.comparing(p -> p.getHeight())); //lambda
+        personList.sort(Comparator.comparing(Person::getHeight)); //method reference
+
+//        personList.forEach(p -> System.out.println(p)); //lambda
+        personList.forEach(System.out::println); //method reference
+    }
+
+    private static List<Person> getPeople() {
+        List<Person> result = new ArrayList<>();
+        result.add(new Person("Mike", 33, 1.8));
+        result.add(new Person("Mary", 25, 1.4));
+        result.add(new Person("Alan", 34, 1.7));
+        result.add(new Person("Zoe", 30, 1.5));
+        return result;
+    }
 }
