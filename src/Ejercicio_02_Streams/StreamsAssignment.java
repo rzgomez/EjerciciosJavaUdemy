@@ -1,8 +1,7 @@
 package Ejercicio_02_Streams;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -14,6 +13,8 @@ public class StreamsAssignment {
         resolveExercise2();
         resolveExercise3();
         resolveExercise4();
+        resolveExercise5();
+        resolveExercise6();
     }
 
     public static void resolveExercise1(){
@@ -94,6 +95,63 @@ public class StreamsAssignment {
 
     }
 
+    public static void resolveExercise5(){
+        Optional<String> grade1 = getGrade(50);
+        Optional<String> grade2 = getGrade(55);
 
+        System.out.println();
+        System.out.println("Exercise 5");
+        System.out.println(grade1.orElse("UNKNOWN"));
+
+        if(grade2.isPresent()){
+            grade2.ifPresent(System.out::println);
+        }else{
+            System.out.println(grade2.orElse("EMPTY"));
+        }
+
+        System.out.println();
+    }
+
+    public static Optional<String> getGrade(int marks){
+        Optional<String> grade = Optional.empty();
+        if(marks > 50){
+            grade = Optional.of("PASS");
+        } else {
+            grade.of("FAIL"); //Esto equivale a Optional.of("FAIL")
+        }                            //Pero se ignora el resultado y no se asigna a la variable grade
+        return grade;
+    }
+
+    public static void resolveExercise6(){
+        List<Book> books = Arrays.asList(
+                                    new Book("Thinking in Java", 30),
+                                    new Book("Java in 24 hrs", 20),
+                                    new Book("Java recipes", 10));
+
+        //Esta opcion es correcta ya que en caso de no existir libros que cumplan el criterio devuelve 0.0
+        Double averagePrice1 = books.stream()
+                .filter(b -> b.getPrice() > 10)
+                .collect(Collectors.averagingDouble(Book::getPrice));
+
+        //Esta opcion es mejor porque esta preparada en caso de que no existan libros que cumplan el criterio
+        Double averagePrice2 = books.stream()
+                .filter(b -> b.getPrice() > 10)
+                .mapToDouble(Book::getPrice)
+                .average()
+                .orElse(0.0);
+
+        Double averagePrice3 = books.stream()
+                .filter(b -> b.getPrice() > 90)
+                .mapToDouble(Book::getPrice)
+                .average()
+                .orElse(0.0);
+
+        System.out.println("Exercise 6");
+        System.out.println("The average price >10 is: " + averagePrice1 );
+        System.out.println("The average price >10 is: " + averagePrice2 );
+        System.out.println("The average price >90 is: " + averagePrice3 );
+        System.out.println();
+
+    }
 
 }
